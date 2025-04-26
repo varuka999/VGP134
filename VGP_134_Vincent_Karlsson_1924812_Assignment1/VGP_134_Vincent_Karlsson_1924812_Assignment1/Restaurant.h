@@ -6,11 +6,6 @@
 
 class Restaurant
 {
-private:
-	std::map<int, std::vector<Table*>> _tablesMap;
-	std::vector<Group*> _queuedGroups;
-	int _totalGroups = 0;
-
 public:
 	Restaurant();
 	~Restaurant();
@@ -20,4 +15,9 @@ public:
 	bool FoundAvailableTable(Group*& group);
 	void FillAvailableTable(Table* table);
 	bool ReturnIfActiveTables();
+
+private:
+	std::map<int, std::vector<Table*>> mTablesMap;
+	std::vector<Group*> mQueuedGroups;
+	int mTotalGroups = 0;
 };

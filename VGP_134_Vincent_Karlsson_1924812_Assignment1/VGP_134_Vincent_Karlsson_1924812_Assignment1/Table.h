@@ -5,10 +5,10 @@ struct Group;
 
 struct Table
 {
-	Restaurant* restaurantPtr;
-	Group* currentGroup;
-	int numberOfSeats;
-	int tableID;
+	Restaurant* mRestaurantPtr;
+	Group* mCurrentGroup;
+	int mNumberOfSeats;
+	int mTableID;
 
 	Table(Restaurant* restPtr, int id);
 	Table(Restaurant* restPtr, int numbOfSeats, int id);

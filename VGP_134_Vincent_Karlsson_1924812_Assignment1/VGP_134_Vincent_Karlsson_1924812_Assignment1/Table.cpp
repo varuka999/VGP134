@@ -3,27 +3,27 @@
 #include "Restaurant.h"
 
 Table::Table(Restaurant* restPtr, int id)
-	: restaurantPtr(restPtr), currentGroup(nullptr), tableID(id)
+	: mRestaurantPtr(restPtr), mCurrentGroup(nullptr), mTableID(id)
 {
-	numberOfSeats = 2 + rand() % 4;
+	mNumberOfSeats = 2 + rand() % 4;
 }
 
 Table::Table(Restaurant* restPtr, int numbOfSeats, int id)
-	: restaurantPtr(restPtr), currentGroup(nullptr), tableID(id)
+	: mRestaurantPtr(restPtr), mCurrentGroup(nullptr), mTableID(id)
 {
-	numberOfSeats = numbOfSeats;
+	mNumberOfSeats = numbOfSeats;
 }
 
 void Table::FillTableWithNewGroup()
 {
-	delete currentGroup;
-	currentGroup = nullptr;
+	delete mCurrentGroup;
+	mCurrentGroup = nullptr;
 
-	restaurantPtr->FillAvailableTable(this);
+	mRestaurantPtr->FillAvailableTable(this);
 
-	if (currentGroup != nullptr)
+	if (mCurrentGroup != nullptr)
 	{
-		currentGroup->currentTable = this;
-		currentGroup->ProgressGroup();
+		mCurrentGroup->mCurrentTable = this;
+		mCurrentGroup->ProgressGroup();
 	}
 }
