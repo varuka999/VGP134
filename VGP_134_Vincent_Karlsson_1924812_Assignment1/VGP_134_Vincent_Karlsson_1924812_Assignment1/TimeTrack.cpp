@@ -5,7 +5,6 @@ int timePassed = 0;
 void PrintTime()
 {
 	int startHour = 12;
-;
 	int hoursPassed = timePassed / 60;
 	int minute = timePassed % 60;
 	int hour = (startHour + hoursPassed) % 24;

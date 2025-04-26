@@ -5,19 +5,19 @@
 Restaurant::Restaurant()
 {
 	Table* table2 = new Table(this, 2, 1);
-	_tablesMap[table2->numberOfSeats].push_back(table2);
+	mTablesMap[table2->mNumberOfSeats].push_back(table2);
 	Table* table3 = new Table(this, 3, 2);
-	_tablesMap[table3->numberOfSeats].push_back(table3);
+	mTablesMap[table3->mNumberOfSeats].push_back(table3);
 	Table* table4 = new Table(this, 4, 3);
-	_tablesMap[table4->numberOfSeats].push_back(table4);
+	mTablesMap[table4->mNumberOfSeats].push_back(table4);
 	Table* table5 = new Table(this, 5, 4);
-	_tablesMap[table5->numberOfSeats].push_back(table5);
+	mTablesMap[table5->mNumberOfSeats].push_back(table5);
 
 	for (int i = 0, j = 5; i < 4 + rand() % 4; i++, j++) // + 4-7 additional tables
 	{
 		Table* table = new Table(this, j);
 
-		_tablesMap[table->numberOfSeats].push_back(table);
+		mTablesMap[table->mNumberOfSeats].push_back(table);
 	}
 }
 
@@ -27,15 +27,18 @@ Restaurant::~Restaurant()
 
 	for (int i = 2; i <= 5; i++)
 	{
-		it = _tablesMap.find(i);
+		it = mTablesMap.find(i);
 
-		for (Table* table : it->second)
+		if (it != mTablesMap.end())
 		{
-			delete table;
-			table = nullptr;
-		}
+			for (Table* table : it->second)
+			{
+				delete table;
+				table = nullptr;
+			}
 
-		it->second.clear();
+			it->second.clear();
+		}
 	}
 }
 
@@ -60,8 +63,6 @@ void Restaurant::RunRestaurant()
 
 			if (nextGroupTimer <= 0)
 			{
-				std::cout << "\nA new group has arrived at the restaurant";
-				PrintTime();
 				NewGroupArrives();
 				nextGroupTimer = 5 + rand() % 16; // 5-20
 			}
@@ -76,13 +77,13 @@ void Restaurant::RunRestaurant()
 
 		std::map<int, std::vector<Table*>>::iterator it;
 
-		for (it = _tablesMap.begin(); it != _tablesMap.end(); it++)
+		for (it = mTablesMap.begin(); it != mTablesMap.end(); it++)
 		{
 			for (int i = 0; i < it->second.size(); i++)
 			{
-				if (it->second[i]->currentGroup != nullptr)
+				if (it->second[i]->mCurrentGroup != nullptr)
 				{
-					it->second[i]->currentGroup->ProgressGroup();
+					it->second[i]->mCurrentGroup->ProgressGroup();
 				}
 			}
 		}
@@ -90,17 +91,20 @@ void Restaurant::RunRestaurant()
 		restaurantClosed = isOpen == false && ReturnIfActiveTables() == false;
 	}
 
-	std::cout << "\n<< Restaurant Fully Close! >>\n\n";
+	std::cout << "\n<< Restaurant Fully Closed! >>\n\n";
 }
 
 void Restaurant::NewGroupArrives()
 {
 	Group* group = new Group;
+	
+	std::cout << "\nA new group of " << group->mMembers.size() << " has arrived at the restaurant";
+	PrintTime();
 
 	if (FoundAvailableTable(group) == false)
 	{
 		std::cout << "The new group needed to wait in the queue.\n\n";
-		_queuedGroups.push_back(group);
+		mQueuedGroups.push_back(group);
 	}
 }
 
@@ -108,18 +112,18 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 {
 	std::map<int, std::vector<Table*>>::iterator it;
 
-	for (int i = group->members.size(); i <= 5; i++)
+	for (int i = group->mMembers.size(); i <= 5; i++)
 	{
-		it = _tablesMap.find(i);
+		it = mTablesMap.find(i);
 
 		for (Table* table : it->second)
 		{
-			if (table->currentGroup == nullptr)
+			if (table->mCurrentGroup == nullptr)
 			{
-				table->currentGroup = group;
-				group->currentTable = table;
+				table->mCurrentGroup = group;
+				group->mCurrentTable = table;
 
-				std::cout << "The new group has been seated at table " << table->tableID << ".\n\n";
+				std::cout << "The new group has been seated at table " << table->mTableID << ".\n\n";
 				return true;
 			}
 		}
@@ -130,18 +134,18 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 
 void Restaurant::FillAvailableTable(Table* table)
 {
-	for (int i = 0; i < _queuedGroups.size(); i++)
+	for (int i = 0; i < mQueuedGroups.size(); i++)
 	{
-		if (_queuedGroups[i]->members.size() <= table->numberOfSeats)
+		if (mQueuedGroups[i]->mMembers.size() <= table->mNumberOfSeats)
 		{
-			std::cout << "\nA queued group has been seated at table " << table->tableID;
+			std::cout << "A queued group of " << mQueuedGroups[i]->mMembers.size() << " has been seated at table " << table->mTableID;
 			PrintTime();
 			std::cout << "\n";
 
-			table->currentGroup = _queuedGroups[i];
-			_queuedGroups[i]->currentTable = table;
+			table->mCurrentGroup = mQueuedGroups[i];
+			mQueuedGroups[i]->mCurrentTable = table;
 
-			_queuedGroups.erase(_queuedGroups.begin() + i);
+			mQueuedGroups.erase(mQueuedGroups.begin() + i);
 			break;
 		}
 	}
@@ -153,11 +157,11 @@ bool Restaurant::ReturnIfActiveTables()
 
 	for (int i = 2; i <= 5; i++)
 	{
-		it = _tablesMap.find(i);
+		it = mTablesMap.find(i);
 
 		for (Table* table : it->second)
 		{
-			if (table->currentGroup != nullptr)
+			if (table->mCurrentGroup != nullptr)
 			{
 				return true;
 			}

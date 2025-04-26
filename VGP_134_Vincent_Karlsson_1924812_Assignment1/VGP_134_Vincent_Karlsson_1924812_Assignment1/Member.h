@@ -3,11 +3,11 @@
 
 struct Member
 {
-	std::string name;
-	std::string memberPhase; // Waiting, Ordering, WaitingForOrder, Eating, Done
-	int waitTime;
+	std::string mName;
+	std::string mMemberPhase; // Waiting, Ordering, WaitingForOrder, Eating, Done
+	int mWaitTime;
 
-	std::string namesArray[20] = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Jamie", "Riley", "Reese", "Peyton", "Skyler", "Avery", "Quinn", "Dakota", "Harper", "Rowan", "Sawyer", "Emerson", "Finley", "Kendall", "Hayden" };
+	std::string mNamesArray[20] = { "Alex", "Jordan", "Taylor", "Morgan", "Casey", "Jamie", "Riley", "Reese", "Peyton", "Skyler", "Avery", "Quinn", "Dakota", "Harper", "Rowan", "Sawyer", "Emerson", "Finley", "Kendall", "Hayden" };
 
 	Member();
 	std::string ReturnName();

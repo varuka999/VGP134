@@ -6,11 +6,11 @@ struct Table;
 
 struct Group
 {
-	std::list<Member*> members;
-	Table* currentTable;
-	int waitTime;
+	std::list<Member*> mMembers;
+	Table* mCurrentTable;
+	int mWaitTime;
 
-	std::string menuItemsArray[8] = { "Burger", "Pasta", "Salad", "Pizza", "Sushi", "Steak", "Soup", "Tacos" };
+	std::string mMenuItemsArray[8] = { "Burger", "Pasta", "Salad", "Pizza", "Sushi", "Steak", "Soup", "Tacos" };
 
 	Group();
 	void ProgressGroup();

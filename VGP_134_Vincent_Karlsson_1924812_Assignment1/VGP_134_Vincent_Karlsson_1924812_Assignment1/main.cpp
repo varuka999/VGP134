@@ -5,12 +5,9 @@ int main()
 {
 	srand(time(NULL));
 
-	Restaurant* restaurant = new Restaurant;
+	Restaurant restaurant;
 
-	restaurant->RunRestaurant();
-
-	delete restaurant;
-	restaurant = nullptr;
+	restaurant.RunRestaurant();
 
 	return 0;
 }
