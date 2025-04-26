@@ -12,9 +12,9 @@ int main()
 {
 	srand(time(NULL));
 
-	Restaurant restaurant;
+	Restaurant* restaurant = new Restaurant;
 
-	//restaurant.RunRestaurant();
+	restaurant->RunRestaurant();
 
 	//std::vector<int> ints = { 1, 2, 3, 4, 5 };
 	//

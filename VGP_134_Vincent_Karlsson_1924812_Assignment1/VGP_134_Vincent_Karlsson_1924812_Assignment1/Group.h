@@ -1,11 +1,21 @@
 #pragma once
 #include <queue>
+#include <stack>
+#include <vector>
+#include <list>
 #include "Member.h"
+
+struct Table;
 
 struct Group
 {
-	int id;
-	std::queue<Member*> members;
+	std::list<Member*> members;
+	std::string groupPhase;
+	Table* currentTable;
+	int waitTime;
+	int tableID;
 
-	Group(int i);
+	Group();
+	void ProgressGroup();
+	bool IsGroupDone();
 };

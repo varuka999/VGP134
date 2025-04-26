@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Member.cpp" />
     <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
