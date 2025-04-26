@@ -25,21 +25,35 @@ void Restaurant::RunRestaurant()
 {
 	int shiftTime = 540; // 1 = 1 minute;
 	bool isOpen = true;
+	bool restaurantClosed = false;
 
 	int nextGroupTimer = 0;
 
-	while (isOpen)
+	std::cout << "<< Restaurant Doors Open! >>\n";
+
+	while (restaurantClosed == false)
 	{
-		--shiftTime;
-		--nextGroupTimer;
 		++timePassed;
 
-		if (nextGroupTimer <= 0)
+		if (isOpen == true)
 		{
-			std::cout << "A new group has arrived at the restaurant"; // at time
-			PrintTime();
-			NewGroupArrives();
-			nextGroupTimer = 10 + rand() % 21; // 10-30
+			--shiftTime;
+			--nextGroupTimer;
+
+			if (nextGroupTimer <= 0)
+			{
+				std::cout << "\nA new group has arrived at the restaurant";
+				PrintTime();
+				NewGroupArrives();
+				nextGroupTimer = 5 + rand() % 16; // 5-20
+			}
+
+			isOpen = shiftTime > 0;
+
+			if (isOpen == false)
+			{
+				std::cout << "\n<< Restaurant Doors Closed, no new customers! >>\n\n";
+			}
 		}
 
 		std::map<int, std::vector<Table*>>::iterator it;
@@ -55,10 +69,10 @@ void Restaurant::RunRestaurant()
 			}
 		}
 
-		isOpen = shiftTime > 0;
+		restaurantClosed = isOpen == false && ReturnIfActiveTables() == false;
 	}
 
-	std::cout << "Restaurant Closed!";
+	std::cout << "\n<< Restaurant Fully Close! >>\n\n";
 }
 
 void Restaurant::NewGroupArrives()
@@ -67,7 +81,8 @@ void Restaurant::NewGroupArrives()
 
 	if (FoundAvailableTable(group) == false)
 	{
-		_quededGroups.push_back(group);
+		std::cout << "The new group needed to wait in the queue.\n\n";
+		_queuedGroups.push_back(group);
 	}
 }
 
@@ -86,8 +101,7 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 				table->currentGroup = group;
 				group->currentTable = table;
 
-				std::cout << "A new group has been seated at table " << table->tableID; // at time
-				PrintTime();
+				std::cout << "The new group has been seated at table " << table->tableID << ".\n\n";
 				return true;
 			}
 		}
@@ -96,15 +110,41 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 	return false;
 }
 
-Group* Restaurant::FillAvailableTable(int seats)
+void Restaurant::FillAvailableTable(Table* table)
 {
-	for (int i = 0; i < _quededGroups.size(); i++)
+	for (int i = 0; i < _queuedGroups.size(); i++)
 	{
-		if (_quededGroups[i]->members.size() <= seats)
+		if (_queuedGroups[i]->members.size() <= table->seats.size())
 		{
-			return _quededGroups[i];
+			std::cout << "\nA queued group has been seated at table " << table->tableID;
+			PrintTime();
+			std::cout << "\n";
+
+			table->currentGroup = _queuedGroups[i];
+			_queuedGroups[i]->currentTable = table;
+
+			_queuedGroups.erase(_queuedGroups.begin() + i);
+			break;
+		}
+	}
+}
+
+bool Restaurant::ReturnIfActiveTables()
+{
+	std::map<int, std::vector<Table*>>::iterator it;
+
+	for (int i = 2; i <= 5; i++)
+	{
+		it = _tablesMap.find(i);
+
+		for (Table* table : it->second)
+		{
+			if (table->currentGroup != nullptr)
+			{
+				return true;
+			}
 		}
 	}
 
-	return nullptr;
+	return false;
 }

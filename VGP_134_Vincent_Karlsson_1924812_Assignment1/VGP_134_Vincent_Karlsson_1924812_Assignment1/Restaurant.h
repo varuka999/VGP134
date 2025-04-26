@@ -8,7 +8,7 @@ class Restaurant
 {
 private:
 	std::map<int, std::vector<Table*>> _tablesMap;
-	std::vector<Group*> _quededGroups;
+	std::vector<Group*> _queuedGroups;
 	int _totalGroups = 0;
 
 public:
@@ -17,5 +17,6 @@ public:
 	void RunRestaurant();
 	void NewGroupArrives();
 	bool FoundAvailableTable(Group*& group);
-	Group* FillAvailableTable(int seats);
+	void FillAvailableTable(Table* table);
+	bool ReturnIfActiveTables();
 };

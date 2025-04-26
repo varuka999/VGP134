@@ -26,28 +26,28 @@ void Group::ProgressGroup()
 		{
 			if (member->memberPhase.compare("Waiting") == 0)
 			{
-				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has started ordering"; // At time
+				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has started ordering";
 				PrintTime();
 				member->memberPhase = "Ordering";
 				member->waitTime = 5 + rand() % 6; // 5-10
 			}
 			else if (member->memberPhase.compare("Ordering") == 0)
 			{
-				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has ordered an ..."; // At time
+				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has ordered " << ReturnMenuItemName();
 				PrintTime();
 				member->memberPhase = "WaitingForOrder";
 				member->waitTime = 10 + rand() % 21; // 10-30
 			}
 			else if (member->memberPhase.compare("WaitingForOrder") == 0)
 			{
-				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has started eatingn"; // At time
+				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has started eating";
 				PrintTime();
 				member->memberPhase = "Eating";
 				member->waitTime = 15 + rand() % 26; // 15-40
 			}
 			else if (member->memberPhase.compare("Eating") == 0)
 			{
-				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has finished eating";   // At time
+				std::cout << "Table " << currentTable->tableID << " member " << member->name << " has finished eating";
 				PrintTime();
 				member->memberPhase = "Done";
 			}
@@ -56,7 +56,7 @@ void Group::ProgressGroup()
 
 	if (IsGroupDone() == true)
 	{
-		currentTable->FindGroup();
+		currentTable->FillTableWithNewGroup();
 	}
 }
 
@@ -70,19 +70,37 @@ bool Group::IsGroupDone()
 		}
 	}
 
-	std::cout << "Table " << currentTable->tableID << " is finished with their meals." << members.front()->name << " has paid the bill"; // At time
+	std::cout << "\nTable " << currentTable->tableID << " is finished with their meals. " << members.front()->name << " has paid the bill";
 	PrintTime();
+	std::cout << "\n";
 	return true;
 }
 
-//void Group::PrintTime(int time)
-//{
-//	int startHour = 12;
-//
-//	int totalMinutes = 0 + time;
-//	int hoursPassed = totalMinutes / 60;
-//	int minute = totalMinutes % 60;
-//	int hour = startHour + hoursPassed;
-//
-//	std::cout << " at " << std::setw(2) << std::setfill('0') << hour << ":" << std::setw(2) << std::setfill('0') << minute << ".\n";
-//}
+
+
+std::string Group::ReturnMenuItemName()
+{
+	int randomIndex = rand() % 8;
+
+	switch (randomIndex)
+	{
+	case 0:
+		return menuItemsArray[0];
+	case 1:
+		return menuItemsArray[1];
+	case 2:
+		return menuItemsArray[2];
+	case 3:
+		return menuItemsArray[3];
+	case 4:
+		return menuItemsArray[4];
+	case 5:
+		return menuItemsArray[5];
+	case 6:
+		return menuItemsArray[6];
+	case 7:
+		return menuItemsArray[7];
+	default:
+		return "??";
+	}
+}

@@ -1,7 +1,7 @@
 #pragma once
+#include <string>
 
 struct Seat
 {
-	// Current Member assigned (could be string)
-	int id;
+	std::string member
 };

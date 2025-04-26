@@ -1,7 +1,5 @@
 #pragma once
 #include <vector>
-#include <queue>
-#include <list>
 #include "Seat.h"
 
 class Restaurant;
@@ -16,5 +14,5 @@ struct Table
 
 	Table(Restaurant* restPtr, int id);
 	Table(Restaurant* restPtr, int numberOfSeats, int id);
-	void FindGroup();
+	void FillTableWithNewGroup();
 };

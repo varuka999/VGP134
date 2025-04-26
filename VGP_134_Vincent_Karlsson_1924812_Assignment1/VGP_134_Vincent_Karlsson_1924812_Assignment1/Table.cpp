@@ -28,15 +28,16 @@ Table::Table(Restaurant* restPtr, int numberOfSeats, int id)
 	}
 }
 
-void Table::FindGroup()
+void Table::FillTableWithNewGroup()
 {
 	delete currentGroup;
 	currentGroup = nullptr;
 
-	currentGroup = restaurantPtr->FillAvailableTable(seats.size());
+	restaurantPtr->FillAvailableTable(this);
 
 	if (currentGroup != nullptr)
 	{
+		currentGroup->currentTable = this;
 		currentGroup->ProgressGroup();
 	}
 }
