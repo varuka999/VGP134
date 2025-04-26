@@ -2,10 +2,16 @@
 #include <iostream>
 
 
+Pet::Pet()
+	: mName(""), mPetType(Invalid), mAge(0), mID(0)
+{
+
+}
 Pet::Pet(int id)
 	: mName(""), mPetType(Invalid), mAge(0), mID(id)
 {
 }
+
 
 void Pet::PrintPet()
 {

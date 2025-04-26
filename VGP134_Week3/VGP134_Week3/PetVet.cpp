@@ -4,7 +4,9 @@
 
 void PetVet::DoCheckup(int id)
 {
-	Pet petVisited(0);
+	//Pet petVisited;
 	//petVisited = PetRegistry::GetPet(id);
-	//std::cout << 
+
+	std::cout << "Checked up " << PetRegistry::Get()->GetPet(id).mName << " (" << PetRegistry::Get()->GetPet(id).mPetType << ")\n";
+	
 }

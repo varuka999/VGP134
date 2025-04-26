@@ -9,6 +9,7 @@ struct Pet
 	int mAge;
 	const int mID;
 
+	Pet();
 	Pet(int id);
 
 	void PrintPet();

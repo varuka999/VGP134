@@ -85,9 +85,33 @@ int main()
 	srand(time(NULL));
 
 	PetStore petStore;
-	//PetVet petVet;
+	PetVet petVet;
 
-	
+	for (int i = 0; i < 10; i++)
+	{
+		petStore.SellPet();
+	}
+
+	for (int i = Dog; i < Invalid; i++)
+	{
+		std::vector<int> ids = PetRegistry::Get()->GetPetIDsOfType(i);
+
+		for (int i = 0; i < ids.size(); i++)
+		{
+			petVet.DoCheckup(ids[i]);
+		}
+	}
+
+	//for (int i = Dog; i < Invalid; i++)
+	//{
+	//	for (Pet pet : PetRegistry::Get()->mAllRegisteredPets)
+	//	{
+	//		if (pet.mPetType == i)
+	//		{
+	//			petVet.DoCheckup(pet.mID);
+	//		}
+	//	}
+	//}
 
 	return 0;
 }

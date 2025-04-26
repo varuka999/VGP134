@@ -1,3 +1,4 @@
+#include <iostream>
 #include "PetStore.h"
 #include "PetRegistry.h"
 
@@ -20,5 +21,7 @@ PetStore::PetStore()
 
 void PetStore::SellPet()
 {
-	//int randomPet = rand() % PetRegistry::
+	int randomPet = 1 + rand() % 13;
+
+	std::cout << "Sold " << PetRegistry::Get()->GetPet(randomPet).mName << "\n";
 }

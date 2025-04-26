@@ -21,7 +21,7 @@ int PetRegistry::RegisterPet(std::string name, PetType type, int age)
 	return pet.mID;
 }
 
-std::vector<int> PetRegistry::GetPetIDsOfType(PetType type)
+std::vector<int> PetRegistry::GetPetIDsOfType(int type)
 {
 	std::vector<int> petIds;
 	for (int i = 0; i < mAllRegisteredPets.size(); i++)
@@ -32,7 +32,7 @@ std::vector<int> PetRegistry::GetPetIDsOfType(PetType type)
 		}
 	}
 
-	return std::vector<int>();
+	return petIds;
 }
 
 Pet PetRegistry::GetPet(int id)

@@ -1,6 +1,7 @@
 #pragma once
 
-namespace PetVet
+class PetVet
 {
+public:
 	void DoCheckup(int id);
 };
