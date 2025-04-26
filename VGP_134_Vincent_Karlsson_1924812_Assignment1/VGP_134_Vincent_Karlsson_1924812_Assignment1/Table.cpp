@@ -33,7 +33,7 @@ void Table::FindGroup()
 	delete currentGroup;
 	currentGroup = nullptr;
 
-	currentGroup = restaurantPtr->FillAvailableTable();
+	currentGroup = restaurantPtr->FillAvailableTable(seats.size());
 
 	if (currentGroup != nullptr)
 	{

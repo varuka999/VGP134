@@ -1,7 +1,6 @@
-#include "Restaurant.h"
 #include <iostream>
-//#include <thread>
-//#include <chrono>
+#include "Restaurant.h"
+#include "TimeTrack.h"
 
 Restaurant::Restaurant()
 {
@@ -14,7 +13,7 @@ Restaurant::Restaurant()
 	Table* table5 = new Table(this, 5, 4);
 	_tablesMap[table5->seats.size()].push_back(table5);
 
-	for (int i = 0, j = 5; i < 2 + rand() % 4; i++, j++) // + 2-5 additional tables
+	for (int i = 0, j = 5; i < 4 + rand() % 4; i++, j++) // + 4-7 additional tables
 	{
 		Table* table = new Table(this, j);
 
@@ -24,64 +23,47 @@ Restaurant::Restaurant()
 
 void Restaurant::RunRestaurant()
 {
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
-	NewGroupArrives();
+	int shiftTime = 540; // 1 = 1 minute;
+	bool isOpen = true;
 
-	std::map<int, std::vector<Table*>>::iterator it;
+	int nextGroupTimer = 0;
 
-	for (it = _tablesMap.begin(); it != _tablesMap.end(); it++)
+	while (isOpen)
 	{
-		for (int i = 0; i < it->second.size(); i++)
+		--shiftTime;
+		--nextGroupTimer;
+		++timePassed;
+
+		if (nextGroupTimer <= 0)
 		{
-			if (it->second[i]->currentGroup != nullptr)
+			std::cout << "A new group has arrived at the restaurant"; // at time
+			PrintTime();
+			NewGroupArrives();
+			nextGroupTimer = 10 + rand() % 21; // 10-30
+		}
+
+		std::map<int, std::vector<Table*>>::iterator it;
+
+		for (it = _tablesMap.begin(); it != _tablesMap.end(); it++)
+		{
+			for (int i = 0; i < it->second.size(); i++)
 			{
-				it->second[i]->currentGroup->ProgressGroup();
+				if (it->second[i]->currentGroup != nullptr)
+				{
+					it->second[i]->currentGroup->ProgressGroup();
+				}
 			}
 		}
+
+		isOpen = shiftTime > 0;
 	}
 
-	//int shiftTime = 540; // 1 = 1 minute;
-	////int shiftTime = 108; // Every 1 second = 5 minutes, Every 12 seconds = 1 hour, 
-	//int nextGroupTimer = 2 + rand() % 5;
-
-	//for (Group* group : _allGroups)
-	//{
-	//	--group->waitTime;
-
-	//	if (group->waitTime <= 0 && group->groupPhase.compare("Waiting") != 0)
-	//	{
-	//		if (group->groupPhase.compare("Seated"))
-	//		{
-	//			std::cout << "Table " << group->tableID << " started their orders";
-	//		}
-
-	//	}
-	//}
-
-	//while (true)
-	//{
-	//	//std::this_thread::sleep_for(std::chrono::seconds(nextGroupTimer));
-
-	//	NewGroupArrives();
-	//}
+	std::cout << "Restaurant Closed!";
 }
 
 void Restaurant::NewGroupArrives()
 {
 	Group* group = new Group;
-	//_allGroups.push_back(group);
 
 	if (FoundAvailableTable(group) == false)
 	{
@@ -103,9 +85,9 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 			{
 				table->currentGroup = group;
 				group->currentTable = table;
-				group->tableID = table->tableID;
-				//group->groupPhase = "Ordering";
-				std::cout << "A new group has been seated at table " << table->tableID << ".\n";
+
+				std::cout << "A new group has been seated at table " << table->tableID; // at time
+				PrintTime();
 				return true;
 			}
 		}
@@ -114,9 +96,15 @@ bool Restaurant::FoundAvailableTable(Group*& group)
 	return false;
 }
 
-Group* Restaurant::FillAvailableTable()
+Group* Restaurant::FillAvailableTable(int seats)
 {
-
+	for (int i = 0; i < _quededGroups.size(); i++)
+	{
+		if (_quededGroups[i]->members.size() <= seats)
+		{
+			return _quededGroups[i];
+		}
+	}
 
 	return nullptr;
 }

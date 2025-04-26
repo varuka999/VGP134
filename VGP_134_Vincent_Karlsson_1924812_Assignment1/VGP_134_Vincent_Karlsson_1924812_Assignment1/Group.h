@@ -10,10 +10,8 @@ struct Table;
 struct Group
 {
 	std::list<Member*> members;
-	std::string groupPhase;
 	Table* currentTable;
 	int waitTime;
-	int tableID;
 
 	Group();
 	void ProgressGroup();

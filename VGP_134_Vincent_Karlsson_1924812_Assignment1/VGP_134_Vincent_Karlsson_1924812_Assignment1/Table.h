@@ -3,7 +3,6 @@
 #include <queue>
 #include <list>
 #include "Seat.h"
-//#include "Group.h"
 
 class Restaurant;
 struct Group;
