@@ -13,6 +13,7 @@ private:
 
 public:
 	Restaurant();
+	~Restaurant();
 
 	void RunRestaurant();
 	void NewGroupArrives();

@@ -9,5 +9,8 @@ int main()
 
 	restaurant->RunRestaurant();
 
+	delete restaurant;
+	restaurant = nullptr;
+
 	return 0;
 }

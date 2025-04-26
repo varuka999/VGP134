@@ -5,25 +5,43 @@
 Restaurant::Restaurant()
 {
 	Table* table2 = new Table(this, 2, 1);
-	_tablesMap[table2->seats.size()].push_back(table2);
+	_tablesMap[table2->numberOfSeats].push_back(table2);
 	Table* table3 = new Table(this, 3, 2);
-	_tablesMap[table3->seats.size()].push_back(table3);
+	_tablesMap[table3->numberOfSeats].push_back(table3);
 	Table* table4 = new Table(this, 4, 3);
-	_tablesMap[table4->seats.size()].push_back(table4);
+	_tablesMap[table4->numberOfSeats].push_back(table4);
 	Table* table5 = new Table(this, 5, 4);
-	_tablesMap[table5->seats.size()].push_back(table5);
+	_tablesMap[table5->numberOfSeats].push_back(table5);
 
 	for (int i = 0, j = 5; i < 4 + rand() % 4; i++, j++) // + 4-7 additional tables
 	{
 		Table* table = new Table(this, j);
 
-		_tablesMap[table->seats.size()].push_back(table);
+		_tablesMap[table->numberOfSeats].push_back(table);
+	}
+}
+
+Restaurant::~Restaurant()
+{
+	std::map<int, std::vector<Table*>>::iterator it;
+
+	for (int i = 2; i <= 5; i++)
+	{
+		it = _tablesMap.find(i);
+
+		for (Table* table : it->second)
+		{
+			delete table;
+			table = nullptr;
+		}
+
+		it->second.clear();
 	}
 }
 
 void Restaurant::RunRestaurant()
 {
-	int shiftTime = 540; // 1 = 1 minute;
+	int shiftTime = 540; // 1 = 1 minute, 9 hour shift
 	bool isOpen = true;
 	bool restaurantClosed = false;
 
@@ -114,7 +132,7 @@ void Restaurant::FillAvailableTable(Table* table)
 {
 	for (int i = 0; i < _queuedGroups.size(); i++)
 	{
-		if (_queuedGroups[i]->members.size() <= table->seats.size())
+		if (_queuedGroups[i]->members.size() <= table->numberOfSeats)
 		{
 			std::cout << "\nA queued group has been seated at table " << table->tableID;
 			PrintTime();

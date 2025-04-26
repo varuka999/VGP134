@@ -41,19 +41,10 @@
     <ClInclude Include="Restaurant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Seat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Group.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Member.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Order.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TimeTrack.h">

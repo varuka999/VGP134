@@ -73,6 +73,15 @@ bool Group::IsGroupDone()
 	std::cout << "\nTable " << currentTable->tableID << " is finished with their meals. " << members.front()->name << " has paid the bill";
 	PrintTime();
 	std::cout << "\n";
+
+	for (Member* member : members)
+	{
+		delete member;
+		member = nullptr;
+	}
+
+	members.clear();
+
 	return true;
 }
 

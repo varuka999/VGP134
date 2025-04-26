@@ -137,10 +137,7 @@
   <ItemGroup>
     <ClInclude Include="Group.h" />
     <ClInclude Include="Member.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Order.h" />
     <ClInclude Include="Restaurant.h" />
-    <ClInclude Include="Seat.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="TimeTrack.h" />
   </ItemGroup>
