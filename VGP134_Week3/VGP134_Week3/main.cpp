@@ -92,7 +92,7 @@ int main()
 		petStore.SellPet();
 	}
 
-	for (int i = Dog; i < Invalid; i++)
+	for (int i = (int)PetType::Invalid + 1; i < (int)PetType::Count; ++i)
 	{
 		std::vector<int> ids = PetRegistry::Get()->GetPetIDsOfType(i);
 
@@ -102,7 +102,7 @@ int main()
 		}
 	}
 
-	//for (int i = Dog; i < Invalid; i++)
+	//for (int i = (int)PetType::Dog; i < (int)PetType::Invalid; i++)
 	//{
 	//	for (Pet pet : PetRegistry::Get()->mAllRegisteredPets)
 	//	{

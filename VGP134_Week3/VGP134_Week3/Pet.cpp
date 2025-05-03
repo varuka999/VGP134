@@ -3,12 +3,12 @@
 
 
 Pet::Pet()
-	: mName(""), mPetType(Invalid), mAge(0), mID(0)
+	: mName(""), mPetType(PetType::Invalid), mAge(0), mID(0)
 {
 
 }
 Pet::Pet(int id)
-	: mName(""), mPetType(Invalid), mAge(0), mID(id)
+	: mName(""), mPetType(PetType::Invalid), mAge(0), mID(id)
 {
 }
 
@@ -16,6 +16,6 @@ Pet::Pet(int id)
 void Pet::PrintPet()
 {
 	std::cout << "Name :" << mName << "\n";
-	std::cout << "Type :" << mPetType << "\n";
+	std::cout << "Type :" << (int)mPetType << "\n";
 	std::cout << "Age :" << mAge << "\n\n";
 }

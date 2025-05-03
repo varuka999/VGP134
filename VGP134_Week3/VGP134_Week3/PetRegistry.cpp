@@ -11,7 +11,7 @@ PetRegistry* PetRegistry::Get()
 
 int PetRegistry::RegisterPet(std::string name, PetType type, int age)
 {
-	Pet pet(++sPetRegistryID);
+	Pet pet(sPetRegistryID++); // Start at 0
 	pet.mName = name;
 	pet.mPetType = type;
 	pet.mAge = age;
@@ -24,26 +24,39 @@ int PetRegistry::RegisterPet(std::string name, PetType type, int age)
 std::vector<int> PetRegistry::GetPetIDsOfType(int type)
 {
 	std::vector<int> petIds;
-	for (int i = 0; i < mAllRegisteredPets.size(); i++)
+
+	for (auto iter = mAllRegisteredPets.begin(); iter != mAllRegisteredPets.end(); ++iter)
 	{
-		if (mAllRegisteredPets[i].mPetType == type || type == Invalid)
+		if ((int)iter->mPetType == type || type == (int)PetType::Invalid)
 		{
-			petIds.push_back(mAllRegisteredPets[i].mID);
+			petIds.push_back(iter->mID);
 		}
 	}
 
 	return petIds;
 }
 
-Pet PetRegistry::GetPet(int id)
+const Pet& PetRegistry::GetPet(int id)
 {
-	for (int i = 0; i < mAllRegisteredPets.size(); i++)
+	for (auto iter = mAllRegisteredPets.begin(); iter != mAllRegisteredPets.end(); ++iter)
 	{
-		if (mAllRegisteredPets[i].mID == id)
+		if (iter->mID == id)
 		{
-			return mAllRegisteredPets[i];
+			return *iter;
 		}
 	}
 
 	return NULL;
+}
+
+void PetRegistry::RemovePet(int id)
+{
+	for (auto iter = mAllRegisteredPets.begin(); iter != mAllRegisteredPets.end(); ++iter)
+	{
+		if (iter->mID == id)
+		{
+			mAllRegisteredPets.erase(iter);
+			break;
+		}
+	}
 }

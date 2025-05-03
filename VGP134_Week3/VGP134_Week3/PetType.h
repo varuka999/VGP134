@@ -1,11 +1,12 @@
 #pragma once
 
-enum PetType
+enum class PetType
 {
+	Invalid,
 	Dog,
 	Cat,
 	Bird,
 	Bunny,
 	Fish,
-	Invalid,
+	Count,
 };

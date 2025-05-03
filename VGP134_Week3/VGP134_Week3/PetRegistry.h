@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <list>
 #include <string>
 #include "Pet.h"
 
@@ -19,12 +20,14 @@ public:
 
 	int RegisterPet(std::string name, PetType type, int age);
 	std::vector<int> GetPetIDsOfType(int type);
-	Pet GetPet(int id);
+	const Pet& GetPet(int id);
+	void RemovePet(int id);
 
-	std::vector<Pet> mAllRegisteredPets;
-	static int sPetRegistryID;
 
 private:
 	// Hide Construtor, only singleton can create
 	PetRegistry() = default; // = default; if not changing default constructor
+
+	std::list<Pet> mAllRegisteredPets;
+	static int sPetRegistryID;
 };

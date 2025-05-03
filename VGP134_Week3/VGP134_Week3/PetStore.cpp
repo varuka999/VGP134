@@ -4,24 +4,41 @@
 
 PetStore::PetStore()
 {
-	PetRegistry::Get()->RegisterPet("Puppers", Dog, 2);
-	PetRegistry::Get()->RegisterPet("Kit", Cat, 3);
-	PetRegistry::Get()->RegisterPet("Harv", Dog, 9);
-	PetRegistry::Get()->RegisterPet("Loba", Bunny, 5);
-	PetRegistry::Get()->RegisterPet("Mocks", Bird, 3);
-	PetRegistry::Get()->RegisterPet("Pips", Dog, 1);
-	PetRegistry::Get()->RegisterPet("Gold", Fish, 3);
-	PetRegistry::Get()->RegisterPet("Yipps", Bunny, 2);
-	PetRegistry::Get()->RegisterPet("Ryna", Cat, 7);
-	PetRegistry::Get()->RegisterPet("Snail", Cat, 20);
-	PetRegistry::Get()->RegisterPet("Goob", Fish, 1);
-	PetRegistry::Get()->RegisterPet("Kore", Dog, 11);
-	PetRegistry::Get()->RegisterPet("Oka", Cat, 9);
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Puppers", PetType::Dog, 2));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Kit", PetType::Cat, 3));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Harv", PetType::Dog, 9));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Berry", PetType::Dog, 10));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Loba", PetType::Bunny, 5));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Mocks", PetType::Bird, 3));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Pips", PetType::Dog, 1));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Gold", PetType::Fish, 3));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Yipps", PetType::Bunny, 2));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Ryna", PetType::Cat, 7));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Snail", PetType::Cat, 20));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Goob", PetType::Fish, 1));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Bloop", PetType::Fish, 2));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Kore", PetType::Dog, 11));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Faen", PetType::Cat, 9));
+	mPetsInStoreByID.push_back(PetRegistry::Get()->RegisterPet("Oka", PetType::Cat, 6));
 }
 
 void PetStore::SellPet()
 {
-	int randomPet = 1 + rand() % 13;
+	while (true)
+	{
+		int petIndex = rand() % 16;
 
-	std::cout << "Sold " << PetRegistry::Get()->GetPet(randomPet).mName << "\n";
+		for (int i = 0; i < mPetsInStoreByID.size(); i++)
+		{
+			if (mPetsInStoreByID[i] == PetRegistry::Get()->GetPet(petIndex).mID)
+			{
+				std::cout << "Sold " << PetRegistry::Get()->GetPet(petIndex).mName << "\n";
+				mPetsInStoreByID.erase(mPetsInStoreByID.begin() + i);
+
+				//PetRegistry::Get()->RemovePet(petIndex);
+
+				return;
+			}
+		}
+	}
 }
