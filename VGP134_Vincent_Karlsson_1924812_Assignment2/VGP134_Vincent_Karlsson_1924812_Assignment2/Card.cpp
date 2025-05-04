@@ -1,7 +1,11 @@
 #include "Card.h"
 
+int Card::mTrackerID = 0;
+
 Card::Card(int rank, int suit)
 {
+	id = ++mTrackerID;
+
 	switch (rank)
 	{
 	case 1:

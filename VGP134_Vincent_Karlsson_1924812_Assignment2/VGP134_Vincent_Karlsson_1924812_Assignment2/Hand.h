@@ -1,17 +1,21 @@
 #pragma once
+#include "Card.h"
 #include <iostream>
 #include <vector>
-#include "Card.h"
-#include "BlackJackTable.h"
 
 class Hand
 {
 public:
-	int ReturnHandValue();
+	void EvaluateHandValue();
 	void DrawCard();
-	// Return Cards;
+	void ReturnCardsToTable();
+	int EvaluateNextMove();
 
+	void PrintHand();
+
+	int GetHandValue();
 
 private:
 	std::vector<std::shared_ptr<Card>> mHand;
+	int mHandValue = 0;
 };

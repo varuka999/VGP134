@@ -7,7 +7,10 @@ BlackJackTable* BlackJackTable::Get()
 {
 	static std::unique_ptr<BlackJackTable> sInstance;
 
-	sInstance = std::make_unique<BlackJackTable>();
+	if (sInstance == nullptr)
+	{
+		sInstance = std::make_unique<BlackJackTable>();
+	}
 
 	return sInstance.get();
 }
@@ -30,10 +33,23 @@ BlackJackTable::BlackJackTable()
 	std::shuffle(mDeck.begin(), mDeck.end(), seed);
 }
 
+BlackJackTable::~BlackJackTable()
+{
+	std::vector<std::shared_ptr<Card>>::iterator it;
+
+	mDeck.clear();
+	mAllCards.clear();
+}
+
 std::shared_ptr<Card>& BlackJackTable::ReturnTopCard()
 {
 	std::shared_ptr<Card> returnPtr = mDeck[0];
 	mDeck.erase(mDeck.begin());
 
 	return returnPtr;
+}
+
+void BlackJackTable::RetrieveCardToDeck(std::shared_ptr<Card>& card)
+{
+	mDeck.push_back(card);
 }

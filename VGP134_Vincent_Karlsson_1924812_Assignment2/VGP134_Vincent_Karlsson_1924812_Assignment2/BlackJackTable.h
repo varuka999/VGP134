@@ -9,6 +9,7 @@ public:
 	static BlackJackTable* Get();
 
 	BlackJackTable();
+	~BlackJackTable();
 
 	BlackJackTable(BlackJackTable&) = delete;
 	BlackJackTable(BlackJackTable&&) = delete;
@@ -16,6 +17,7 @@ public:
 	BlackJackTable& operator=(BlackJackTable&&) = delete;
 
 	std::shared_ptr<Card>& ReturnTopCard();
+	void RetrieveCardToDeck(std::shared_ptr<Card>& card);
 
 private:
 	std::vector<std::shared_ptr<Card>> mAllCards;

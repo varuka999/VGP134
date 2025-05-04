@@ -7,4 +7,7 @@ struct Card
 	char mRank;
 	char mSuit;
 	int mValue;
+	
+	int id;
+	static int mTrackerID;
 };
