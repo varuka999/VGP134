@@ -6,16 +6,19 @@
 class Hand
 {
 public:
+	Hand(std::string identifier);
+
 	void EvaluateHandValue();
 	void DrawCard();
 	void ReturnCardsToTable();
-	int EvaluateNextMove();
-
+	void EvaluateNextMove();
 	void PrintHand();
 
 	int GetHandValue();
+	std::string GetIdentifier();
 
 private:
 	std::vector<std::shared_ptr<Card>> mHand;
-	int mHandValue = 0;
+	std::string mIdentifier;
+	int mHandValue;
 };

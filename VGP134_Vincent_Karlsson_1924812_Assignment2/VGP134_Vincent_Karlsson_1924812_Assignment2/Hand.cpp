@@ -2,6 +2,11 @@
 #include "BlackJackTable.h"
 #include <iostream>
 
+Hand::Hand(std::string identifier)
+	: mIdentifier(identifier), mHandValue(0)
+{
+}
+
 void Hand::EvaluateHandValue()
 {
 	int totalValue = 0;
@@ -39,7 +44,12 @@ void Hand::DrawCard()
 	mHand.push_back(BlackJackTable::Get()->ReturnTopCard());
 
 	EvaluateHandValue();
-	
+
+	if (mIdentifier != "Dealer")
+	{
+		BlackJackTable::Get()->UpdateHighestValue(*this);
+	}
+
 	if (mHandValue > 21)
 	{
 		std::cout << "They Bust!\n";
@@ -49,7 +59,7 @@ void Hand::DrawCard()
 void Hand::ReturnCardsToTable()
 {
 	std::vector<std::shared_ptr<Card>>::iterator it;
-	
+
 	for (it = mHand.begin(); it != mHand.end();)
 	{
 		BlackJackTable::Get()->RetrieveCardToDeck(*it);
@@ -57,48 +67,48 @@ void Hand::ReturnCardsToTable()
 	}
 }
 
-int Hand::EvaluateNextMove()
+void Hand::EvaluateNextMove()
 {
+	std::cout << mIdentifier << " evaluates their hand..\n";
 	if (mHandValue > 21)
 	{
 		std::cout << "They are bust and are out.\n";
-		return 0;
 	}
 	else if (mHandValue >= 18)
 	{
 		std::cout << "They chose to stand.\n";
-		return mHandValue;
 	}
-
-	while (mHandValue < 18)
+	else
 	{
-		if (mHandValue > 13)
+		while (mHandValue < 18)
 		{
-			bool decideToDraw = rand() % 2 ? 0 : 1; // 0-1
+			if (mHandValue > 13)
+			{
+				//bool decideToDraw = rand() % 2 ? 0 : 1; // 0-1
 
-			if (decideToDraw == true)
+				if (rand() % 2 == 0)
+				{
+					std::cout << "They chose to draw!\n";
+					DrawCard();
+				}
+				else
+				{
+					std::cout << "They chose to stand.\n";
+					return;
+				}
+			}
+			else
 			{
 				std::cout << "They chose to draw!\n";
 				DrawCard();
 			}
-			else
-			{
-				std::cout << "They chose to stand.\n";
-				return mHandValue;
-			}
-		}
-		else
-		{
-			std::cout << "They chose to draw!\n";
-			DrawCard();
 		}
 	}
-
-	return mHandValue > 21 ? 0 : mHandValue;
 }
 
 void Hand::PrintHand()
 {
+	std::cout << mIdentifier << " hand:\n";
 	for (int i = 0; i < mHand.size(); i++)
 	{
 		std::cout << mHand[i].get()->mRank << " of " << mHand[i].get()->mSuit << "\n";
@@ -116,6 +126,10 @@ void Hand::PrintHand()
 
 int Hand::GetHandValue()
 {
-	//return mHandValue > 21 ? 0 : mHandValue;
 	return mHandValue;
+}
+
+std::string Hand::GetIdentifier()
+{
+	return mIdentifier;
 }

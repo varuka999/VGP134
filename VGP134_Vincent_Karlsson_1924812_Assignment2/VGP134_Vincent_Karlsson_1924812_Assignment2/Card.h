@@ -8,6 +8,6 @@ struct Card
 	char mSuit;
 	int mValue;
 	
-	int id;
-	static int mTrackerID;
+	int mID;
+	static int sTrackerID; // To track if something went wrong with the static instance (was used to verify an issue where a second instance of BlackJackTable was created)
 };
