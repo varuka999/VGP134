@@ -118,7 +118,7 @@ void BlackJackTable::PlayBlackJack()
 		BlackJackTable::Get()->PrintWinners();
 	}
 
-	for (int i = 0; i < sizeof(players) / sizeof(players[0]); i++)
+	for (int i = 0; i < sizeof(players) / sizeof(players[0]); ++i)
 	{
 		players[i].ReturnCardsToTable();
 	}

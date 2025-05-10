@@ -14,9 +14,9 @@ void Hand::EvaluateHandValue()
 
 	for (int i = 0; i < mHand.size(); ++i)
 	{
-		if (mHand[i].get()->mRank != 'A')
+		if (mHand[i].get()->cardRank != 'A')
 		{
-			totalValue += mHand[i].get()->mValue;
+			totalValue += mHand[i].get()->cardValue;
 		}
 		else
 		{
@@ -109,9 +109,9 @@ void Hand::EvaluateNextMove()
 void Hand::PrintHand()
 {
 	std::cout << mIdentifier << " hand:\n";
-	for (int i = 0; i < mHand.size(); i++)
+	for (int i = 0; i < mHand.size(); ++i)
 	{
-		std::cout << mHand[i].get()->mRank << " of " << mHand[i].get()->mSuit << "\n";
+		std::cout << mHand[i].get()->cardRank << " of " << mHand[i].get()->cardSuit << "\n";
 	}
 
 	std::cout << "Value: " << GetHandValue();

@@ -1,87 +1,87 @@
 #include "Card.h"
 
-int Card::sTrackerID = 0;
+int Card::staticTrackerID = 0;
 
 Card::Card(int rank, int suit)
 {
-	mID = ++sTrackerID;
+	cardID = ++staticTrackerID;
 
 	switch (rank)
 	{
 	case 1:
-		mRank = 'A';
-		mValue = 11;
+		cardRank = 'A';
+		cardValue = 11;
 		break;
 	case 2:
-		mRank = '2';
-		mValue = 2;
+		cardRank = '2';
+		cardValue = 2;
 		break;
 	case 3:
-		mRank = '3';
-		mValue = 3;
+		cardRank = '3';
+		cardValue = 3;
 		break;
 	case 4:
-		mRank = '4';
-		mValue = 4;
+		cardRank = '4';
+		cardValue = 4;
 		break;
 	case 5:
-		mRank = '5';
-		mValue = 5;
+		cardRank = '5';
+		cardValue = 5;
 		break;
 	case 6:
-		mRank = '6';
-		mValue = 6;
+		cardRank = '6';
+		cardValue = 6;
 		break;
 	case 7:
-		mRank = '7';
-		mValue = 7;
+		cardRank = '7';
+		cardValue = 7;
 		break;
 	case 8:
-		mRank = '8';
-		mValue = 8;
+		cardRank = '8';
+		cardValue = 8;
 		break;
 	case 9:
-		mRank = '9';
-		mValue = 9;
+		cardRank = '9';
+		cardValue = 9;
 		break;
 	case 10:
-		mRank = 'T';
-		mValue = 10;
+		cardRank = 'T';
+		cardValue = 10;
 		break;
 	case 11:
-		mRank = 'J';
-		mValue = 10;
+		cardRank = 'J';
+		cardValue = 10;
 		break;
 	case 12:
-		mRank = 'Q';
-		mValue = 10;
+		cardRank = 'Q';
+		cardValue = 10;
 		break;
 	case 13:
-		mRank = 'K';
-		mValue = 10;
+		cardRank = 'K';
+		cardValue = 10;
 		break;
 	default:
-		mRank = 'N';
-		mValue = 0;
+		cardRank = 'N';
+		cardValue = 0;
 		break;
 	}
 
 	switch (suit)
 	{
 	case 1:
-		mSuit = 'C';
+		cardSuit = 'C';
 		break;
 	case 2:
-		mSuit = 'D';
+		cardSuit = 'D';
 		break;
 	case 3:
-		mSuit = 'H';
+		cardSuit = 'H';
 		break;
 	case 4:
-		mSuit = 'S';
+		cardSuit = 'S';
 		break;
 	default:
-		mSuit = 'N';
+		cardSuit = 'N';
 		break;
 	}
 }
