@@ -1,0 +1,45 @@
+Part 1: (30%)
+1) What are the 4 pricipals of Object Oriented Programming? 
+   Describe each.
+Encapsulation: Controlling variable/Function usability. Prevents variables from being unintentionally altered and certain functions to only be usable within its own class/children.
+Inheritence: Allows multiple classes (derived) to share functionality with a base class while maintaining individual logic. Useful for when multiple classes with the same type of functionality could be grouped under a common 'parent' (ex, dog, cat, fish are all animals, so could inherit from Animal class).
+Abstration: Hides the functionality of a given classes methods. Abstraction aims to simplify the code for use (kind of similar to encapsulation).
+Polymorphism: Allows for classes to be created in different ways. For example, A dog could be made to have a random age internally, or be assigned an age at creation.
+
+2) What is the difference between a Stack and a Queue?
+A stack can add elements to the front and can only remove the last/top element, while a queue can only add elements to the back and can only remove from the front/first.
+In simpler terms, Stack = First in Last out, Queue, First in First out.
+
+3) In a vector, what is the difference between the functions "reserve" and "resize"?
+Resive will change the size of the vector while reserve will only change the memory allocated for the vector without changing the size.
+
+4) Give an example of when a list may be more useful than a vector.
+In this example, I have a vector of struct student. In this vector, I need to iterate through the vector and remove all students with a even number ID. However, the ID is a const int, which would mean I would have to make a move constructor specifically for it to work in a vector (this is because the memory is contigious in a vector, so changing elements in the vector will change its memory location. In this example the const would cause problems). If I instead used a list, since the memory is not contigious, I can freely iterate through the list and remove elements without breaking the iterator or conflicting with the const variable as nothing is memory is moved, only the connections which a list handles automatically.
+
+5) What are .h typically used for vs what .cpp files are used for?
+Headers (.h) are used for declaring methods and variables within a class/struct, while the .cpp file will define the variables and functionality of the methods.
+Headers can technically declare and define but is avoided (c# does this as there is no .h)
+
+6) What are the differences between a struct and a class? 
+   Why would you use one over the other?
+Structs are primarily used to store data and maybe have the most basic functions, while classes can store the same data but are have more complex methods.
+Structs would be preferred if the object does not have any complex methods (ex, if student just needs to know its name, age, studentID, has no methods).
+Classes would be preferred if the object needs to have any complex methods (ex, if student needs to be able to DoHomework() or AttendClass())
+There is also the different with encapsulation. Be default, all variables in a struct are public, while by default classes are private.
+
+7) What is a reference used for?
+   What is a pointer used for?
+   References are mainly used when passing a complex variable such as a class. This is used get the actual variable (its memory address) rather than a copy.
+   Pointers are used when an object needs to exist between scopes/functions, and directly point to an address of memory that is stored on the heap.
+   
+8) When are keywords like "inline" and "constexpr" executed?
+Inline executes the function at runtime rather than compile time.
+constexpr is used to evaluate variables at compile time to make sure there are no errors that would happen during runtime.
+
+9) Why would the keyword "virtual" be used?
+   What is the other keyword that is also used if something is "virtual"?
+Virtual is used in base classes that intend for the function to be overriden in derived classes.
+Within derived classes, the virtual would be replaced with override to indicate that it is changing the functionality of the base method (in base class).
+
+10) What are the six special member functions that can be automatically created in a class by the compiler?
+Constructor, Deconstructor, Move Constructor, Move Assignment Operator, Copy Constructor, Copy Assignment Operator
