@@ -28,11 +28,14 @@ bool Farm::Update()
 		int wolfAttacks = 1 + rand() % 5; // 1-5
 
 		wolfAttacks = mSheepInFarm.size() < wolfAttacks ? mSheepInFarm.size() - 1 : wolfAttacks;
+		//wolfAttacks = std::min(wolfAttacks, (int)mSheepInFarm.size());
 
 		std::random_device randomDevice;
 		std::mt19937 seed(randomDevice());
 
 		std::shuffle(mSheepInFarm.begin(), mSheepInFarm.end(), seed);
+
+		//non shuffle method
 
 		for (int i = 0; i < wolfAttacks; ++i)
 		{
