@@ -25,7 +25,7 @@ void SumEven(uint32_t start, uint32_t end)
 			++gSumEven;
 		}
 	}
-	//
+	//sdjfksdfs
 }
 
 int main()
