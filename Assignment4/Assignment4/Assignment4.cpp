@@ -56,8 +56,11 @@ bool TryParse(const std::string& string, Weapon::WeaponType& result)
 		}
 		else
 		{
-			std::cout << "Enter a valid Weapon Type!\n";
-			system("pause");
+			if (string != "q")
+			{
+				std::cout << "Enter a valid Weapon Type!\n";
+				system("pause");
+			}
 			return false;
 		}
 	}
@@ -79,12 +82,69 @@ bool TryParse(const std::string& string, int& result)
 
 	catch (const std::invalid_argument&)
 	{
-		std::cout << "Please input a valid integer!\n";
-		system("pause");
-		ClearConsoleLines(3);
+		if (string != "q")
+		{
+			std::cout << "Please input a valid integer!\n";
+			system("pause");
+			ClearConsoleLines(3);
+		}
 		return false;
 	}
 }
+
+bool TryParse(const std::string& string)
+{
+	try
+	{
+		if (string == "Damage")
+		{
+			return true;
+		}
+		else if (string == "Range")
+		{
+			return true;
+		}
+		else if (string == "Ammo")
+		{
+			return true;
+		}
+		else
+		{
+			if (string != "q")
+			{
+				std::cout << "Not a valid stat to change!\n";
+				system("pause");
+			}
+		}
+	}
+
+	catch (const std::invalid_argument&)
+	{
+
+		return false;
+	}
+}
+
+void const PrintWeaponInfo(Weapon& viewWeapon)
+{
+	std::cout << "Name: " << viewWeapon.name << "\n";
+	std::cout << "Damage: " << viewWeapon.damage << "\n";
+	std::cout << "Ranger: " << viewWeapon.range << "\n";
+	std::cout << "Ammo: " << viewWeapon.maxAmmo << "\n\n";
+}
+
+Weapon CreateWeapon(Weapon::WeaponType weaponType, const std::string& name, int damage, int range, int maxAmmo, bool starter = false)
+{
+	Weapon newWeapon;
+	newWeapon.weaponType = weaponType;
+	newWeapon.name = name;
+	newWeapon.damage = damage;
+	newWeapon.range = range;
+	newWeapon.maxAmmo = maxAmmo;
+	newWeapon.starter = starter;
+	return newWeapon;
+}
+
 
 void ViewAllWeapons(WeaponContainer& weaponContainer)
 {
@@ -106,13 +166,9 @@ void ViewWeaponsOfType(WeaponContainer& weaponContainer)
 
 		Weapon::WeaponType responseType;
 
-		if (TryParse(response, responseType))
+		if (TryParse(response, responseType) == true)
 		{
 			weaponContainer.Print(responseType);
-		}
-		else
-		{
-			std::cout << "Enter a valid Weapon Type!\n";
 		}
 
 		if (response == "q")
@@ -131,16 +187,13 @@ void ViewWeapon(WeaponContainer& weaponContainer)
 
 	system("cls");
 	std::cout << "Weapon Name: ";
-	std::cin >> response;
+	std::getline(std::cin >> std::ws, response);
 
 	Weapon viewWeapon = weaponContainer.GetWeapon(response);
 
 	if (viewWeapon.weaponType != Weapon::Invalid && viewWeapon.weaponType != Weapon::Count)
 	{
-		std::cout << "Name: " << viewWeapon.name << "\n";
-		std::cout << "Damage: " << viewWeapon.damage << "\n";
-		std::cout << "Ranger: " << viewWeapon.range << "\n";
-		std::cout << "Ammo: " << viewWeapon.maxAmmo << "\n";
+		PrintWeaponInfo(viewWeapon);
 	}
 	else
 	{
@@ -161,10 +214,49 @@ void AddWeapon(WeaponContainer& weaponContainer)
 	int maxAmmo = 0;
 
 	system("cls");
-	std::cout << "Weapon Name: ";
-	std::cin >> weaponName;
-	std::cout << "Weapon Type: ";
-	std::cin >> weaponTypeString;
+	std::cout << "Press q to cancel weapon creation at any point\n\n";
+
+	while (true)
+	{
+		std::cout << "Weapon Name: ";
+		std::getline(std::cin >> std::ws, weaponName); // Needed the std::ws to skip newlines and empty spaces before the input.
+
+		if (weaponContainer.HasWeaponName(weaponName) == true)
+		{
+			std::cout << "Weapon name already exists!\n";
+			system("pause");
+			ClearConsoleLines(3);
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+	if (weaponName == "q")
+	{
+		std::cout << "\nCancelled Weapon Creation!\n";
+		return;
+	}
+
+	while (true)
+	{
+		std::cout << "Weapon Type (Sword, Bow, Staff, Spear, Hammer, Axe): ";
+		std::getline(std::cin >> std::ws, weaponTypeString);
+
+		if (TryParse(weaponTypeString, weaponType) == true)
+		{
+			break;
+		}
+
+		if (weaponTypeString == "q")
+		{
+			std::cout << "\nCancelled Weapon Creation!\n";
+			return;
+		}
+
+		ClearConsoleLines(3);
+	}
 
 	while (true)
 	{
@@ -173,9 +265,18 @@ void AddWeapon(WeaponContainer& weaponContainer)
 
 		if (TryParse(damageString, damage) == true)
 		{
+			ClearConsoleLines(1);
+			std::cout << "Weapon Damage: " << damage << "\n";
 			break;
 		}
+
+		if (damageString == "q")
+		{
+			std::cout << "\nCancelled Weapon Creation!\n";
+			return;
+		}
 	}
+
 	while (true)
 	{
 		std::cout << "Weapon Range: ";
@@ -183,9 +284,17 @@ void AddWeapon(WeaponContainer& weaponContainer)
 
 		if (TryParse(rangeString, range) == true)
 		{
+			ClearConsoleLines(1);
+			std::cout << "Weapon Range: " << range << "\n";
 			break;
 		}
+		if (rangeString == "q")
+		{
+			std::cout << "\nCancelled Weapon Creation!\n";
+			return;
+		}
 	}
+
 	while (true)
 	{
 		std::cout << "Weapon Ammo: ";
@@ -193,35 +302,158 @@ void AddWeapon(WeaponContainer& weaponContainer)
 
 		if (TryParse(maxAmmoString, maxAmmo) == true)
 		{
+			ClearConsoleLines(1);
+			std::cout << "Weapon Ammo: " << maxAmmo << "\n";
 			break;
+		}
+		if (maxAmmoString == "q")
+		{
+			std::cout << "\nCancelled Weapon Creation!\n";
+			return;
 		}
 	}
 
 	weaponContainer.AddWeapon(CreateWeapon(weaponType, weaponName, damage, range, maxAmmo));
+	std::cout << "Successfully added new weapon!\n";
 }
 
 void EditWeapon(WeaponContainer& weaponContainer)
 {
+	std::string response = "";
 
+	system("cls");
+	std::cout << "Weapon Name to edit: ";
+	std::getline(std::cin >> std::ws, response);
+
+	Weapon viewWeapon = weaponContainer.GetWeapon(response);
+
+	if (viewWeapon.weaponType != Weapon::Invalid && viewWeapon.weaponType != Weapon::Count)
+	{
+		PrintWeaponInfo(viewWeapon);
+
+		std::string statResponse = "";
+		int intResponseValue = 0;
+
+		std::cout << "Press q to cancel editing at any point (cancelling won't save any changes)\n\n";
+		while (true)
+		{
+			std::cout << "What stat do you want to update (Damage, Range, Ammo): ";
+			std::getline(std::cin >> std::ws, response);
+
+			if (TryParse(response) == false)
+			{
+				if (response == "q")
+				{
+					std::cout << "\nCancelled Weapon Editing!\n";
+					return;
+				}
+
+				ClearConsoleLines(3);
+				continue;
+			}
+			else if (TryParse(response) == true)
+			{
+				if (response == "Damage")
+				{
+					while (true)
+					{
+						std::cout << "New Weapon Damage: ";
+						std::cin >> statResponse;
+
+						if (TryParse(statResponse, intResponseValue) == true)
+						{
+							viewWeapon.damage = intResponseValue;
+							ClearConsoleLines(1);
+							std::cout << "New Weapon Damage: " << intResponseValue << "\n";
+							break;
+						}
+
+						if (statResponse == "q")
+						{
+							std::cout << "\nCancelled Weapon Editing!\n";
+							return;
+						}
+					}
+				}
+				else if (response == "Range")
+				{
+					while (true)
+					{
+						std::cout << "New Weapon Range: ";
+						std::cin >> statResponse;
+
+						if (TryParse(statResponse, intResponseValue) == true)
+						{
+							viewWeapon.range = intResponseValue;
+							ClearConsoleLines(1);
+							std::cout << "New Weapon Range: " << intResponseValue << "\n";
+							break;
+						}
+						if (statResponse == "q")
+						{
+							std::cout << "\nCancelled Weapon Editing!\n";
+							return;
+						}
+					}
+				}
+				else if (response == "Ammo")
+				{
+					while (true)
+					{
+						std::cout << "New Weapon Ammo: ";
+						std::cin >> statResponse;
+
+						if (TryParse(statResponse, intResponseValue) == true)
+						{
+							viewWeapon.maxAmmo = intResponseValue;
+							ClearConsoleLines(1);
+							std::cout << "New Weapon Ammo: " << intResponseValue << "\n";
+							break;
+						}
+						if (statResponse == "q")
+						{
+							std::cout << "\nCancelled Weapon Editing!\n";
+							return;
+						}
+					}
+				}
+			}
+
+			if (weaponContainer.UpdateWeapon(viewWeapon))
+			{
+				std::cout << "Successfully edited weapon!\n";
+			}
+			else
+			{
+				std::cout << "Something went wrong with editing!\n";
+			}
+
+			break;
+		}
+	}
+	else
+	{
+		std::cout << "No weapon with that names exists!\n";
+	}
 }
 
 void RemoveWeapon(WeaponContainer& weaponContainer)
 {
+	std::string response = "";
 
+	system("cls");
+	std::cout << "Weapon Name to remove: ";
+	std::getline(std::cin >> std::ws, response);
+
+	if (weaponContainer.RemoveWeapon(response) == true)
+	{
+		std::cout << "Successfully deleted weapon!\n";
+	}
+	else
+	{
+		std::cout << "Weapon with that name doesn't exist!\n";
+	}
 }
-
-Weapon CreateWeapon(Weapon::WeaponType weaponType, const std::string& name, int damage, int range, int maxAmmo, bool starter = false)
-{
-	Weapon newWeapon;
-	newWeapon.weaponType = weaponType;
-	newWeapon.name = name;
-	newWeapon.damage = damage;
-	newWeapon.range = range;
-	newWeapon.maxAmmo = maxAmmo;
-	newWeapon.starter = starter;
-	return newWeapon;
-}
-
 
 
 int main()
@@ -230,8 +462,21 @@ int main()
 	weaponContainer.AddWeapon(CreateWeapon(Weapon::Sword, "Bronze Sword", 5, 1, 1));
 	weaponContainer.AddWeapon(CreateWeapon(Weapon::Sword, "Iron Sword", 7, 1, 1));
 	weaponContainer.AddWeapon(CreateWeapon(Weapon::Sword, "Steel Sword", 10, 1, 1));
-
-
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Axe, "Bronze Axe", 5, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Axe, "Iron Axe", 7, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Axe, "Steel Axe", 10, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Spear, "Bronze Spear", 5, 3, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Spear, "Iron Spear", 7, 3, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Spear, "Steel Spear", 10, 3, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Staff, "Amber Staff", 5, 5, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Staff, "Emerald Staff", 7, 7, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Staff, "Platinum Staff", 10, 10, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Hammer, "Bronze Hammer", 5, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Hammer, "Iron Hammer", 7, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Hammer, "Steel Hammer", 10, 1, 1));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Bow, "Feather Bow", 5, 10, 10));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Bow, "Firm Bow", 7, 15, 15));
+	weaponContainer.AddWeapon(CreateWeapon(Weapon::Bow, "Long Bow", 10, 30, 10));
 
 	std::string response = "";
 	bool running = true;
@@ -267,6 +512,18 @@ int main()
 		else if (response == "3")
 		{
 			ViewWeapon(weaponContainer);
+		}
+		else if (response == "4")
+		{
+			AddWeapon(weaponContainer);
+		}
+		else if (response == "5")
+		{
+			EditWeapon(weaponContainer);
+		}
+		else if (response == "6")
+		{
+			RemoveWeapon(weaponContainer);
 		}
 
 		system("pause");

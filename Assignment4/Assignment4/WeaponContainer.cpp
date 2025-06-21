@@ -17,7 +17,6 @@ std::string GetWeaponTypeName(Weapon::WeaponType weaponType)
     return "";
 }
 
-
 bool WeaponContainer::HasWeaponName(const std::string& name)
 {
     for (auto& weapons : mWeaponCollection)
