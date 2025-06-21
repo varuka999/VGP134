@@ -7,7 +7,7 @@ const int EXTREME_HUNGER_LEVEL = 5;
 void StatsManager::AddPlayer(std::string name)
 {
 	// add a new player with the new name and set the hungerLevel to 0
-	Player player;
+	Player player; // hungerLevel is default 0 on creation
 	player.name = name;
 	mPlayers.push_back(player);
 }

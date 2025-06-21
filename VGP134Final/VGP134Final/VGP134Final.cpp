@@ -46,6 +46,9 @@ bool TryParse(const std::string& string, ActionType& result)
 
 int main()
 {
+	auto add = [](int a, int b) { return a + b; };
+	int c = add(1, 2);
+
 	srand(time(NULL));
 
 	StatsManager statsManager;
@@ -108,4 +111,3 @@ int main()
 	actionManager.Terminate();
 	return 0;
 }
-
